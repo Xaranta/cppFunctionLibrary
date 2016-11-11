@@ -46,44 +46,40 @@ template<class T> int size(T *ptr)//int size(const char *ptr)
     //return the size of the array
     return count;
 }
-//int size(char *);
 
-//Idk if I'm over thinking not using libraries. this is pretty annoying shit
+//Don't need for Convert
 char * constCopy(const char *);
 
-char * intToChar(int );
+char * intToChar(int, char *);
 char * Convert(const char *);
 
 int main() {
-	// your code goes here
-	char *str = "five and six";
-	cout << size(str)<<endl;
-        
-        //not what I wanted
-        int i = 65;
-        char c = i;
-        printf("%c", c);
+
 	
 	const char *hexadecimal = new char[30];
-        hexadecimal = "240f";  
+        hexadecimal = "240F";  
 	
-        cout << endl << Convert(hexadecimal) << endl;
+        cout << endl << hexadecimal << " in hexadecimal converts to " << Convert(hexadecimal) << "in decimal" << endl;
 
 	char *decimalNumber  = new char[40];
-    //printf("Enter a Hexadecimal Number\n");  
-    //scanf("%s", hexadecimal);  
-    
-    
-    decimalNumber = Convert(hexadecimal);
+  
+        decimalNumber = Convert(hexadecimal);
+        
+        printf("Decimal char* = %s\n", decimalNumber);
 	
 	return 0;
 }
 
 int pow(int base, int exponent)
 {
-    int result=0;
+    int result=1;
     
     //Loop multiply the base by itself.
+    if(exponent==0)
+    {
+       
+        return result;
+    }
     while (exponent != 0)
     {
         result *= base;
@@ -92,26 +88,8 @@ int pow(int base, int exponent)
     return result;
 }
 
-/*template<class T> int size(T *ptr)//int size(const char *ptr)
-{
-    //iterator
-    int i = 0;
-    
-    int count = 0;
 
-    //While loop that tests whether the end of the array has been reached
-   while (*(ptr + i) != '\0')
-    {
-        //increment the count variable
-        ++count;
-        //advance to the next element of the array
-        ++i;
-    } 
-    //return the size of the array
-    return count;
-}*/
-
-//Idk if I'm over thinking not using libraries. this is pretty annoying shit
+//Idk if I'm over thinking not using libraries. this is pretty annoying 
 char * constCopy(const char *ptr) 
 {
     //iterator
@@ -135,46 +113,48 @@ char * constCopy(const char *ptr)
     return copy;
 }
 
-char * intToChar(int number)
+//recursive intToChar 
+char * intToChar(int i, char *p)
 {
-     char text[] = "StringX";
-   int digit;
-   for (digit = 0; digit < 10; ++digit)
-   {
-      text[6] = digit + '0';
-      puts(text);
-   }
+    //recursive base case
+    if (i / 10 == 0) {
+        // No more digits.
+        *p++ = i + '0';
+        *p = '\0';
+        return p;
+    }
+
+    p = intToChar(i / 10, p);
+    *p++ = i % 10 + '0';
+    *p = '\0';
+    return p;
 }
 
 char * Convert(const char *pHexString)
 {
     //do i even need a copy? why did i make all these functions to copy it?
     //I remember I was having trouble with the const typing. did i need to solve that this way?
-    char *copy = constCopy(pHexString);
     long decimalNumber=0;
+    char * decimalString = new char[40];
     
     char hexDigits[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
       '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     
-    char *hexDigs = "0123456789ABCDEF";
-
-    
-    int i, j, power=0, digit;  
-    int hexStrSize = size(copy);
+    int i, j, power=0; // digit;  
+    int hexStrSize = size(pHexString);
  
-    cout << hexStrSize << endl;
-    cout << decimalNumber<<endl;
     /* Converting hexadecimal number to decimal number */
     for(i=hexStrSize-1; i >= 0; i--) {
         /*search currect character in hexDigits array */
         for(j=0; j<16; j++){
-            if(copy[i] == hexDigits[j]){
+            if(pHexString[i] == hexDigits[j]){
                 decimalNumber += j*pow(16, power);
             }
         }
         power++;
     } 
-  
-    printf("Decimal Number : %ld", decimalNumber);  
-    return copy;
+    
+    intToChar(decimalNumber,decimalString);
+
+    return decimalString;
 }
