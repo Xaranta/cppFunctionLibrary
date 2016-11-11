@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+#include <stdio.h>  
+#include <math.h>
+#include <string.h>  
+   
+
+int pow(int base, int exponent)
+{
+    int result=0;
+    
+    //Loop multiply the base by itself.
+    while (exponent != 0)
+    {
+        result *= base;
+        --exponent;
+    }
+    return result;
+}
+
+int size(char *ptr)
+{
+    //iterator
+    int i = 0;
+    
+    int count = 0;
+
+    //While loop that tests whether the end of the array has been reached
+    while (*(ptr + i) != '\0')
+    {
+        //increment the count variable
+        ++count;
+        //advance to the next element of the array
+        ++i;
+    }
+    //return the size of the array
+    return count;
+}
+
+char * Convert(const char *pHexString)
+{
+    long long decimalNumber=0;
+    char *hexDigits= new char[16];
+    hexDigits={'0', '1', '2', '3', '4', '5', '6', '7', '8','9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    
+    int i, j, power=0, digit;  
+    int hexStrSize = size(*pHexString);
+ 
+     
+    /* Converting hexadecimal number to decimal number */
+    for(i=hexStrSize-1; i >= 0; i--) {
+        /*search currect character in hexDigits array */
+        for(j=0; j<16; j++){
+            if(hexadecimal[i] == hexDigits[j]){
+                decimalNumber += j*pow(16, power);
+            }
+        }
+        power++;
+    } 
+  
+    printf("Decimal Number : %ld", decimalNumber);  
+}
+
+
+
+
+
+int main() {
+	// your code goes here
+	char *str = "five and six";
+	cout << size(str);
+	
+	char hexadecimal[30];  
+	
+	char decimalNumber[40];
+    printf("Enter a Hexadecimal Number\n");  
+    scanf("%s", hexadecimal);  
+    
+    decimalNumber = Convert(hexadecimal);
+	
+	
+	
+	return 0;
+}
