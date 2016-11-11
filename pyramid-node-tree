@@ -172,8 +172,32 @@ int height(struct node* node)
     }
 }
  
+ http://www.geeksforgeeks.org/find-the-maximum-sum-path-in-a-binary-tree/
+ 
 int main()
 {
+
+	vector<int> numbers;
+
+	//Create an input file stream
+	ifstream in("abc.txt",ios::in);
+
+	/*
+            As long as we haven't reached the end of the file, keep reading entries.
+	*/
+
+	int number;  //Variable to hold each number as it is read
+	
+        //Read number using the extraction (>>) operator
+        while (in >> number) {
+		//Add the number to the end of the array
+		numbers.push_back(number);
+	}
+
+	//Close the file stream
+	in.close();
+	
+	
     struct node *tree;
     vector<int> arr = {2,3,4,6,9,1};
  
